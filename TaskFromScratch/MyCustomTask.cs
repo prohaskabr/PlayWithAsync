@@ -22,6 +22,16 @@ public class MyCustomTask
         }
     }
 
+    public static MyCustomTask Delay(TimeSpan delay)
+    {
+
+        var task = new MyCustomTask();
+
+        new Timer(_ => task.SetResult()).Change(delay, Timeout.InfiniteTimeSpan);
+
+        return task;
+    }
+
     public static MyCustomTask Run(Action action)
     {
 

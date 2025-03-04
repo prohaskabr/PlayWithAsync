@@ -26,6 +26,10 @@ Console.WriteLine($"Starting thread Id: {Environment.CurrentManagedThreadId}");
 //*************************************
 MyCustomTask.Run(() => Console.WriteLine($"First MyCustomTask thread Id: {Environment.CurrentManagedThreadId}")).Wait();
 
+MyCustomTask.Delay(TimeSpan.FromSeconds(1)).Wait();
+
 Console.WriteLine($"Second MyCustomTask thread Id: {Environment.CurrentManagedThreadId}");
+
+MyCustomTask.Delay(TimeSpan.FromSeconds(1)).Wait();
 
 MyCustomTask.Run(() => Console.WriteLine($"Third MyCustomTask thread Id: {Environment.CurrentManagedThreadId}")).Wait();
