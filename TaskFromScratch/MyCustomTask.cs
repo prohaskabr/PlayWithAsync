@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.ExceptionServices;
 
 namespace TaskFromScratch;
 
@@ -80,6 +81,30 @@ public class MyCustomTask
     public void SetResult() => CompleteTask(null);
 
     public void SetException(Exception exception) => CompleteTask(exception);
+
+    public void Wait()
+    {
+        ManualResetEventSlim resetEventSlim = null;
+
+        lock (_lock)
+        {
+            if (!_completed)
+            {
+                resetEventSlim = new ManualResetEventSlim();
+                ContinueWith(() => resetEventSlim.Set());
+
+
+            }
+        }
+
+        resetEventSlim?.Wait();
+
+        if (_exception is not null)
+        {
+            ExceptionDispatchInfo.Throw(_exception);
+        }
+
+    }
 
     private void CompleteTask(Exception? e)
     {
