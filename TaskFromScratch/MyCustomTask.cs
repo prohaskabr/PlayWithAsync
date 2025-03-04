@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.ExceptionServices;
 
 namespace TaskFromScratch;
@@ -88,6 +89,8 @@ public class MyCustomTask
         return task;
     }
 
+    public MyCustomTaskAwaiter GetAwaiter() => new MyCustomTaskAwaiter(this);
+
     public void SetResult() => CompleteTask(null);
 
     public void SetException(Exception exception) => CompleteTask(exception);
@@ -141,4 +144,19 @@ public class MyCustomTask
             }
         }
     }
+}
+
+public readonly struct MyCustomTaskAwaiter : INotifyCompletion
+{
+    private readonly MyCustomTask _task;
+
+    internal MyCustomTaskAwaiter(MyCustomTask task) => _task = task;
+
+    public bool IsCompleted => _task.IsCompleted;
+
+    public void OnCompleted(Action continuation) => _task.ContinueWith(continuation);
+
+    public MyCustomTaskAwaiter GetAwait() => this;
+
+    public void GetResult() => _task.Wait();
 }

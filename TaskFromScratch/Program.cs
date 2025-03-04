@@ -24,12 +24,12 @@ Console.WriteLine($"Starting thread Id: {Environment.CurrentManagedThreadId}");
 //    Console.WriteLine($"Second MyCustomTask thread Id: {Environment.CurrentManagedThreadId}");
 //});
 //*************************************
-MyCustomTask.Run(() => Console.WriteLine($"First MyCustomTask thread Id: {Environment.CurrentManagedThreadId}")).Wait();
+await MyCustomTask.Run(() => Console.WriteLine($"First MyCustomTask thread Id: {Environment.CurrentManagedThreadId}"));
 
-MyCustomTask.Delay(TimeSpan.FromSeconds(1)).Wait();
+await MyCustomTask.Delay(TimeSpan.FromSeconds(1));
 
 Console.WriteLine($"Second MyCustomTask thread Id: {Environment.CurrentManagedThreadId}");
 
-MyCustomTask.Delay(TimeSpan.FromSeconds(1)).Wait();
+await MyCustomTask.Delay(TimeSpan.FromSeconds(1));
 
-MyCustomTask.Run(() => Console.WriteLine($"Third MyCustomTask thread Id: {Environment.CurrentManagedThreadId}")).Wait();
+await MyCustomTask.Run(() => Console.WriteLine($"Third MyCustomTask thread Id: {Environment.CurrentManagedThreadId}"));
